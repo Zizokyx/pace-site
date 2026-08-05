@@ -6,7 +6,7 @@ const translations = {
     nav_pricing: "Pachete",
     nav_solutions: "Soluții",
     nav_contact: "Contact",
-    nav_cta: "Audit gratuit",
+    nav_cta: "Discuție gratuită",
     hero_badge: "TURNING DATA INTO MOMENTUM",
     hero_title:
       "Accelerează prin date, automatizare și inteligență artificială.",
@@ -137,6 +137,15 @@ demo_cta_title:
 
 demo_cta_text:
 "Hai să discutăm cum Analiza, Automatizarea și AI-ul pot susține obiectivele companiei tale.",
+fc_kicker: "Free call",
+fc_title: "Ce înseamnă un free call?",
+fc_1_t: "20 de minute, la obiect",
+fc_1_p: "O discuție structurată despre contextul tău: unde stă problema de raportare sau de proces și ce ar merita analizat.",
+fc_2_t: "Direcție, nu vânzare",
+fc_2_p: "Îți spun onest dacă și cum te pot ajuta, plus 1–2 direcții pe care le poți evalua chiar dacă nu lucrăm împreună.",
+fc_3_t: "Pași clari după",
+fc_3_p: "Dacă are sens să continuăm, stabilim scope-ul și pașii concreți. Dacă nu, pleci tot cu ceva util.",
+fc_note: "Free call ≠ audit plătit. Call-ul e o discuție de orientare, gratuită. Analiza detaliată pe datele tale, cu document și roadmap, este pachetul „Discovery” de mai jos.",
 
 demo_cta_button:
 "Programează o discuție",
@@ -184,7 +193,7 @@ p3_price: "De la 700€/lună",
     nav_pricing: "Packages",
     nav_solutions: "Solutions",
     nav_contact: "Contact",
-    nav_cta: "Free audit",
+    nav_cta: "Free call",
     hero_badge: "TURNING DATA INTO MOMENTUM",
     hero_title:
       "Move faster with data, automation and AI",
@@ -239,7 +248,15 @@ demo_ai_text:
 "AI-powered business assistant designed to provide instant answers, insights and knowledge access.",
 footer_contact:
 "Contact",
-
+fc_kicker: "Free call",
+fc_title: "What a free call actually is",
+fc_1_t: "20 focused minutes",
+fc_1_p: "A structured conversation about your context: where the reporting or process problem sits, and what's worth analysing.",
+fc_2_t: "Direction, not a pitch",
+fc_2_p: "An honest read on whether and how I can help, plus 1–2 directions you can act on even if we don't work together.",
+fc_3_t: "Clear next steps",
+fc_3_p: "If it makes sense to continue, we define the scope and concrete steps. If not, you still leave with something useful.",
+fc_note: "Free call ≠ paid audit. The call is a free orientation conversation. The detailed analysis of your data, with a document and roadmap, is the \"Discovery\" package below.",
 footer_location:
 "Remote • Europe",
 p3_price: "From €700/mo",

@@ -1948,3 +1948,26 @@ html[data-lang="en"] .lang-switch i:before {
 
 .price-card .price-note { font-size: 12px; color: var(--soft); margin-top: 14px; opacity: .85; }
 .price-card.premium .price-note { color: #3a4a63; }
+
+#free-call-explained { display: grid; gap: 28px; padding-bottom: clamp(32px, 4vw, 56px); }
+.fc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.fc-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border-radius: var(--radius); padding: 26px; min-height: 180px;
+}
+.fc-no {
+  display: block;
+  font-size: 15px; font-weight: 900; letter-spacing: .08em;
+  background: linear-gradient(120deg, #b9ffef, #7c9cff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: 16px;
+}
+.fc-card h3 { font-size: 22px; letter-spacing: -.03em; margin-bottom: 10px; }
+.fc-card p { color: var(--soft); line-height: 1.6; font-size: 15px; }
+.fc-note {
+  border: 1px solid rgba(185,255,239,.22);
+  background: linear-gradient(135deg, rgba(185,255,239,.06), rgba(124,156,255,.05));
+  border-radius: 18px; padding: 20px 24px; color: #cfd8e3; font-size: 15px; line-height: 1.6;
+}
+@media (max-width: 768px) { .fc-grid { grid-template-columns: 1fr; } }
