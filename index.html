@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="ro" data-lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pace Analytics | Data, Performance & Intelligence</title>
+  <meta name="description" content="Premium BI, Power Platform and AI consulting for finance teams and growing companies." />
+  <meta name="theme-color" content="#05070d" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="nav-shell">
+    <a class="brand" href="#top" aria-label="Pace Analytics">
+      <span class="brand-symbol pace-logo">
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+      </span>
+      <span class="brand-copy">
+        <strong>Pace Analytics</strong>
+        <small data-i18n="brand_sub">Data • Performance • Intelligence</small>
+      </span>
+    </a>
+
+    <button class="menu-btn" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#work" data-i18n="nav_work">How it works?</a>
+      <a href="#method" data-i18n="nav_method">Metodă</a>
+      <a href="#demo" data-i18n="nav_solutions">Soluții</a>
+      <a href="#pricing" data-i18n="nav_pricing">Pachete</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="lang-switch">
+  <span class="lang-ro">RO</span>
+  <i></i>
+  <span class="lang-en">GB</span>
+</button>
+      <a class="nav-cta" href="#contact" data-i18n="nav_cta">Audit gratuit</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="grid-plane"></div>
+      </div>
+
+      <div class="hero-content reveal">
+        <div class="badge"><span></span><b data-i18n="hero_badge">Finance-grade analytics for ambitious companies</b></div>
+        <h1 data-i18n="hero_title">Transformă raportarea din Excel într-un sistem executiv cu BI, automatizări și AI.</h1>
+        <p data-i18n="hero_sub">Construiesc dashboard-uri Power BI, aplicații Power Platform și asistenți Copilot Studio pentru firme care vor claritate financiară, decizii rapide și mai puțin lucru manual.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact" data-i18n="hero_primary">Vreau primul audit</a>
+          <a class="btn btn-secondary" href="#showcase" data-i18n="hero_secondary">Vezi conceptul</a>
+        </div>
+        
+      </div>
+
+      <div class="hero-product reveal delay-1" id="showcase">
+        <div class="product-window">
+          <div class="window-top">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <span data-i18n="window_title">Executive Command Center</span>
+          </div>
+          <div class="command-layout">
+            <aside class="command-sidebar">
+              <span class="active" data-i18n="side_1">Overview</span>
+              <span data-i18n="side_2">Cashflow</span>
+              <span data-i18n="side_3">Profitability</span>
+              <span data-i18n="side_4">Automation</span>
+            </aside>
+            <section class="command-main">
+              <div class="metric-row">
+                <article><small data-i18n="metric_1">Revenue</small><strong>€428k</strong><em>+18.4%</em></article>
+                <article><small data-i18n="metric_2">Gross margin</small><strong>32.6%</strong><em>+4.1%</em></article>
+                <article><small data-i18n="metric_3">Manual hours</small><strong>5h</strong><em>-82%</em></article>
+              </div>
+              <div class="insight-card">
+                <div class="insight-head">
+                  <span>AI</span>
+                  <b data-i18n="ai_title">Finance Insight</b>
+                </div>
+                <p data-i18n="ai_text">Marja scade pe clienții cu discount ridicat și cost logistic peste medie. Recomand renegociere sau prag minim de comandă.</p>
+              </div>
+              <div class="chart-zone">
+                <div class="line"></div>
+                <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section logos reveal">
+      <p data-i18n="logos_text">Built for teams that live in Microsoft 365, Excel and operational systems.</p>
+      <div>
+        <span>Data</span><span>Analytics</span><span>Automation</span><span>AI</span><span>Workflows</span><span>Microsoft 365</span>
+      </div>
+    </section>
+
+    <section class="section split" id="work">
+      <div class="section-kicker reveal">
+        <span data-i18n="solutions_kicker">Solutions</span>
+        <h2 data-i18n="solutions_title">Nu vând dashboard-uri. Vând control.</h2>
+      </div>
+      <div class="solution-grid">
+        <article class="solution-card reveal">
+          <span class="num">01</span>
+          <h3 data-i18n="sol1_title">CFO Intelligence Layer</h3>
+          <p data-i18n="sol1_desc">Un model de date financiar, KPI-uri executive și cockpit Power BI pentru cashflow, profitabilitate, costuri și forecast.</p>
+        </article>
+        <article class="solution-card reveal delay-1">
+          <span class="num">02</span>
+          <h3 data-i18n="sol2_title">Operations Automation</h3>
+          <p data-i18n="sol2_desc">Fluxuri Power Automate și Power Apps pentru aprobări, facturi, taskuri recurente, notificări și trasabilitate.</p>
+        </article>
+        <article class="solution-card reveal delay-2">
+          <span class="num">03</span>
+          <h3 data-i18n="sol3_title">Copilot Studio Assistant</h3>
+          <p data-i18n="sol3_desc">Agent AI conectat la documentație, procese și rapoarte, astfel încât echipa să poată întreba în limbaj natural.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section editorial reveal">
+      <div class="editorial-card">
+        <p class="mini" data-i18n="editorial_mini">Positioning</p>
+        <h2 data-i18n="editorial_title">Pentru firmele care au crescut mai repede decât sistemele lor de raportare.</h2>
+        <p data-i18n="editorial_text">Când datele sunt împrăștiate în Excel, ERP, email și SharePoint, managementul primește răspunsuri târziu. Eu construiesc stratul dintre date și decizie: curat, automatizat și pregătit pentru AI.</p>
+      </div>
+    </section>
+
+    <section class="section method" id="method">
+      <div class="section-kicker reveal">
+        <span data-i18n="method_kicker">Method</span>
+        <h2 data-i18n="method_title">Un proces scurt, clar, fără consultanță de dragul consultanței.</h2>
+      </div>
+      <div class="method-track reveal">
+        <article><b>01</b><h3 data-i18n="m1_title">Map</h3><p data-i18n="m1_desc">Identific sursele de date, rapoartele manuale și deciziile care contează.</p></article>
+        <article><b>02</b><h3 data-i18n="m2_title">Model</h3><p data-i18n="m2_desc">Construiesc modelul de date, KPI-urile și logica financiară.</p></article>
+        <article><b>03</b><h3 data-i18n="m3_title">Automate</h3><p data-i18n="m3_desc">Reduc taskurile repetitive cu Power Platform și fluxuri controlate.</p></article>
+        <article><b>04</b><h3 data-i18n="m4_title">Activate AI</h3><p data-i18n="m4_desc">Adaug Copilot Studio ca interfață naturală peste cunoștințe și rapoarte.</p></article>
+      </div>
+    </section>
+
+    <section class="section calculator reveal">
+      <div>
+        <span class="mini" data-i18n="calc_mini">ROI Signal</span>
+        <h2 data-i18n="calc_title">Arată clientului cât îl costă raportarea manuală.</h2>
+        <p data-i18n="calc_text">Un calculator simplu pentru discuții de vânzare: ore pierdute lunar × cost orar estimat.</p>
+      </div>
+      <div class="calc-panel">
+        <label><span data-i18n="calc_hours">Ore / lună</span><input id="hours" type="range" min="5" max="160" value="42"><b id="hoursLabel">42</b></label>
+        <label><span data-i18n="calc_rate">Cost orar</span><input id="rate" type="range" min="10" max="150" value="45"><b id="rateLabel">45€</b></label>
+        <div class="total"><small data-i18n="calc_total">Cost lunar estimat</small><strong id="totalValue">€1,890</strong></div>
+      </div>
+    </section>
+
+    <section class="section demo-carousel-section" id="demo">
+
+    <div class="demo-section-header">
+
+        <span data-i18n="demo_kicker">
+        PACE SOLUTIONS
+        </span>
+
+        <h2 data-i18n="demo_title">
+          Discover how PACE transforms business performance.
+          </h2>
+
+        <p data-i18n="demo_text">
+Analytics, Automation and AI solutions designed to help companies move faster, work smarter and make better decisions.
+</p>
+
+    </div>
+
+    <div class="demo-apps">
+
+        <button onclick="openDemo('bi')"
+        data-i18n="demo_bi">
+    Performance Analytics
+</button>
+
+        <button onclick="openDemo('automation')"
+        data-i18n="demo_automation">
+    Workflow Automation
+</button>
+
+        <button onclick="openDemo('ai')"
+        data-i18n="demo_ai">
+    AI Knowledge Assistant
+</button>
+
+    </div>
+
+</section>
+
+
+<!-- MODAL POWER BI -->
+
+<div id="biModal" class="demo-modal">
+
+  <div class="demo-modal-content">
+
+    <button class="demo-close"
+            onclick="closeDemo()">
+      ✕
+    </button>
+    <div class="demo-carousel-header reveal">
+    <span data-i18n="demo_bi_kicker">
+    PERFORMANCE ANALYTICS
+    </span>
+
+    <h2 data-i18n="demo_bi_title">
+  PACE Performance Intelligence Suite
+  </h2>
+
+      <p data-i18n="demo_bi_text">
+  Executive dashboards, profitability analysis and AI-generated insights designed to give leaders complete visibility over business performance.
+  </p>
+  </div>
+    <div class="demo-carousel">
+
+      <div class="demo-stage">
+
+        <button class="demo-slide active"
+                data-demo="0">
+          <img src="./assets/demo1.png" alt="Executive Overview">
+        </button>
+
+        <button class="demo-slide next"
+                data-demo="1">
+          <img src="./assets/demo2.png" alt="Profitability Analysis">
+        </button>
+
+        <button class="demo-slide prev"
+                data-demo="2">
+          <img src="./assets/demo3.png" alt="AI & Business Insights">
+        </button>
+
+      </div>
+
+      <div class="demo-carousel-tabs">
+
+        <button class="demo-tab active"
+                data-demo-tab="0">
+          <span></span>
+          01 Executive Overview
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="1">
+          <span></span>
+          02 Profitability Analysis
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="2">
+          <span></span>
+          03 AI & Business Insights
+        </button>
+
+      </div>
+  <div class="demo-cta">
+
+    <h3 data-i18n="demo_cta_title">
+        Interested in a similar solution?
+    </h3>
+
+    <a href="#contact" class="demo-cta-btn"
+        onclick="closeDemo()"
+       data-i18n="demo_cta_button">
+        Schedule a Discovery Call
+    </a>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="automationModal" class="demo-modal">
+
+  <div class="demo-modal-content">
+
+    <button class="demo-close"
+            onclick="closeDemo('automation')">
+      ✕
+    </button>
+
+    <div class="demo-carousel-header reveal">
+
+      <span data-i18n="demo_aut_kicker">
+        PROCESS AUTOMATION
+      </span>
+
+      <h2 data-i18n="demo_aut_title">
+        PACE Workflow Automation Hub
+      </h2>
+
+      <p data-i18n="demo_aut_text">
+        Power Apps and Power Automate solutions built to eliminate manual work, accelerate approvals and provide complete process visibility.
+      </p>
+
+    </div>
+
+    <div class="demo-carousel">
+
+      <div class="demo-stage">
+
+        <button class="demo-slide active"
+                data-demo="3">
+          <img src="./assets/demo4.png" alt="Workflow Dashboard">
+        </button>
+
+        <button class="demo-slide next"
+                data-demo="4">
+          <img src="./assets/demo5.png" alt="Invoice Approval Center">
+        </button>
+
+        <button class="demo-slide prev"
+                data-demo="5">
+          <img src="./assets/demo6.png" alt="Workflow Overview">
+        </button>
+
+      </div>
+
+      <div class="demo-carousel-tabs">
+
+        <button class="demo-tab active"
+                data-demo-tab="3">
+          <span></span>
+          01 Workflow Dashboard
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="4">
+          <span></span>
+          02 Invoice Approval Center
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="5">
+          <span></span>
+          03 Workflow Overview
+        </button>
+
+      </div>
+
+      <div class="demo-cta">
+
+        <h3 data-i18n="demo_cta_title">
+          Interested in a similar solution?
+        </h3>
+
+        <a href="#contact" class="demo-cta-btn"
+        onclick="closeDemo()"
+       data-i18n="demo_cta_button">
+        Schedule a Discovery Call
+    </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="aiModal" class="demo-modal">
+
+  <div class="demo-modal-content">
+
+    <button class="demo-close"
+            onclick="closeDemo('ai')">
+      ✕
+    </button>
+
+    <div class="demo-carousel-header reveal">
+
+      <span data-i18n="demo_ai_kicker">
+        AI KNOWLEDGE ASSISTANT
+      </span>
+
+      <h2 data-i18n="demo_ai_title">
+        PACE AI Knowledge Assistant
+      </h2>
+
+      <p data-i18n="demo_ai_text">
+        Asistent inteligent construit cu Microsoft Copilot Studio pentru a transforma datele de business în insight-uri, recomandări și suport decizional pentru leadership.
+      </p>
+
+    </div>
+
+    <div class="demo-carousel">
+
+      <div class="demo-stage">
+
+        <button class="demo-slide active"
+                data-demo="6">
+          <img src="./assets/demo7.png" alt="AI Slide 1">
+        </button>
+
+        <button class="demo-slide next"
+                data-demo="7">
+          <img src="./assets/demo8.png" alt="AI Slide 2">
+        </button>
+
+        <button class="demo-slide hidden"
+                data-demo="8">
+          <img src="./assets/demo9.png" alt="AI Slide 3">
+        </button>
+
+        <button class="demo-slide prev"
+                data-demo="9">
+          <img src="./assets/demo10.png" alt="AI Slide 4">
+        </button>
+
+      </div>
+
+      <div class="demo-carousel-tabs">
+
+        <button class="demo-tab active"
+                data-demo-tab="6">
+          <span></span>
+          01 Overview
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="7">
+          <span></span>
+          02 Leadership Priorities
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="8">
+          <span></span>
+          03 Business Risks
+        </button>
+
+        <button class="demo-tab"
+                data-demo-tab="9">
+          <span></span>
+          04 Executive Summary
+        </button>
+
+      </div>
+
+      <div class="demo-cta">
+
+        <h3 data-i18n="demo_cta_title">
+          Interested in a similar solution?
+        </h3>
+
+        <a href="#contact" class="demo-cta-btn"
+        onclick="closeDemo()"
+       data-i18n="demo_cta_button">
+        Schedule a Discovery Call
+    </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+    <section class="section pricing" id="pricing">
+  <div class="section-kicker reveal">
+    <span data-i18n="pricing_kicker">Pachete comerciale</span>
+    <h2 data-i18n="pricing_title">Simplu de înțeles. Ușor de cumpărat.</h2>
+  </div>
+  <div class="pricing-grid">
+
+    <article class="price-card reveal">
+      <small data-i18n="p1_label">Punct de plecare</small>
+      <h3 data-i18n="p1_title">Analytics Audit</h3>
+      <strong>€300</strong>
+      <p data-i18n="p1_desc">O analiză a raportării actuale: probleme, quick wins și un plan concret de implementare.</p>
+      <ul>
+        <li data-i18n="p1_li1">Discovery call (60–90 min)</li>
+        <li data-i18n="p1_li2">Audit al rapoartelor actuale</li>
+        <li data-i18n="p1_li3">Roadmap + quick wins</li>
+      </ul>
+      <p class="price-note" data-i18n="p1_note">Costul se scade integral din proiectul următor.</p>
+    </article>
+
+    <article class="price-card premium reveal delay-1">
+      <small data-i18n="p2_label">Cel mai ales</small>
+      <h3 data-i18n="p2_title">Executive BI System</h3>
+      <strong data-i18n="p2_price">De la €1.500</strong>
+      <p data-i18n="p2_desc">Primul tău sistem BI executiv: model de date, KPI-uri și dashboard Power BI construit pe procesele tale.</p>
+      <ul>
+        <li data-i18n="p2_li1">Model de date + KPI</li>
+        <li data-i18n="p2_li2">Dashboard Power BI (3–4 pagini)</li>
+        <li data-i18n="p2_li3">Până la 3 surse de date</li>
+        <li data-i18n="p2_li4">2 runde de revizii + training</li>
+      </ul>
+      <p class="price-note" data-i18n="p2_note">Preț fix pe proiect, fără costuri ascunse.</p>
+    </article>
+
+    <article class="price-card reveal delay-2">
+      <small data-i18n="p3_label">Lunar</small>
+      <h3 data-i18n="p3_title">AI Analytics Partner</h3>
+      <strong data-i18n="p3_price">De la €700/lună</strong>
+      <p data-i18n="p3_desc">Suport continuu, automatizări noi, optimizări și insight-uri AI, lună de lună.</p>
+      <ul>
+        <li data-i18n="p3_li1">Suport & mentenanță rapoarte</li>
+        <li data-i18n="p3_li2">Automatizări Power Platform</li>
+        <li data-i18n="p3_li3">Îmbunătățiri AI + review lunar</li>
+      </ul>
+      <p class="price-note" data-i18n="p3_note">Fără contract pe termen lung — anulezi oricând.</p>
+    </article>
+
+  </div>
+</section>
+
+    <section class="section contact" id="contact">
+      <div class="contact-panel reveal">
+        <div>
+          <span class="mini" data-i18n="contact_mini">Start here</span>
+          <h2 data-i18n="contact_title">Hai să transformăm un proces lent într-un sistem care arată premium și funcționează.</h2>
+          <p data-i18n="contact_text">Formularul deschide emailul tău. Pentru producție îl putem lega la Formspree, Netlify Forms, Supabase sau CRM.</p>
+        </div>
+        <form id="contactForm" class="form-card">
+          <label><span data-i18n="form_name">Nume</span><input name="name" autocomplete="name" required placeholder="Alin Constantin"></label>
+          <label><span data-i18n="form_email">Email</span><input name="email" type="email" autocomplete="email" required placeholder="you@company.com"></label>
+          <label><span data-i18n="form_need">Ce vrei să rezolvi?</span><select name="need"><option data-i18n="need_1">Raportare manuală</option><option data-i18n="need_2">Power BI dashboard</option><option data-i18n="need_3">Power Platform automation</option><option data-i18n="need_4">Copilot Studio assistant</option></select></label>
+          <label><span data-i18n="form_msg">Mesaj</span><textarea name="message" rows="4" placeholder="Scrie pe scurt contextul..."></textarea></label>
+          <button class="btn btn-primary dark" type="submit" data-i18n="form_btn">Trimite cererea</button>
+          <p class="form-note" data-i18n="form_note">Schimbă emailul din script.js cu emailul tău real.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+
+  <div class="footer-left">
+
+    <h4>PACE</h4>
+
+    <p data-i18n="footer_desc">
+      Ajutăm companiile să transforme datele în performanță.
+    </p>
+
+  </div>
+
+  <div class="footer-right">
+
+    <h4 data-i18n="footer_contact">
+      Contact
+    </h4>
+
+    <a
+ href="https://www.linkedin.com/in/alin-constantin-aa2913189/"
+ target="_blank"
+ rel="noopener noreferrer"
+ class="social-link"
+ aria-label="LinkedIn"
+>
+
+<svg
+ xmlns="http://www.w3.org/2000/svg"
+ viewBox="0 0 24 24"
+ fill="currentColor"
+>
+ <path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5zM0 8h5v16H0V8zm7.98 0h4.79v2.19h.07c.67-1.26 2.31-2.59 4.75-2.59C22.42 7.6 24 10.42 24 15.1V24h-5v-7.72c0-1.84-.03-4.21-2.57-4.21-2.57 0-2.96 2.01-2.96 4.08V24h-5V8z"/>
+</svg>
+
+<a>
+
+    alinionut08@gmail.com
+    </a>
+
+    <span data-i18n="footer_location">
+      Remote • Europe
+    </span>
+
+  </div>
+
+</footer>
+<div class="footer-bottom">
+
+  <span>
+    © <span id="year"></span> PACE
+  </span>
+
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
