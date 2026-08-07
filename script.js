@@ -159,10 +159,10 @@ const translations = {
     form_name: "Nume",
     form_email: "Email",
     form_need: "Ce vrei să rezolvi?",
-    need_1: "Analytics & Reporting",
-    need_2: "Automation & Workflows",
-    need_3: "AI Solutions",
-    need_4: "Business Optimization",
+    need_1: "Analiză & Raportare",
+    need_2: "Automatizare & Fluxuri",
+    need_3: "Soluții AI",
+    need_4: "Optimizare Business",
     form_msg: "Mesaj",
     form_btn: "Solicită o discuție",
     form_note: "Schimbă emailul din script.js cu emailul tău real.",
@@ -171,8 +171,14 @@ const translations = {
     p2_note: "Preț fix pe proiect, fără costuri ascunse.",
     p2_price: "De la €1.500",
     p3_price: "De la 700€/lună",
+    ph_name: "Prenume + Nume",
+    ph_email: "tu@companie.com",
+    ph_msg: "Scrie pe scurt contextul...",
   },
   en: {
+    ph_name: "First name + Last name",
+    ph_email: "you@company.com",
+    ph_msg: "Briefly describe your context...",
     brand_sub: "Move Faster With Data",
     nav_work: "How it works?",
     nav_method: "Approach",
@@ -350,6 +356,10 @@ function applyLang(lang) {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.dataset.i18n;
     if (translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
+    const key = el.dataset.i18nPh;
+    if (translations[lang][key]) el.placeholder = translations[lang][key];
   });
   localStorage.setItem("siteLang", lang);
 }
@@ -778,7 +788,7 @@ updateCinematicSection();
   let targetProg = 0,
     curProg = 0,
     lastStage = -1;
-  const isMobile = window.matchMedia("(max-width:768px)").matches;
+  const isMobile = window.matchMedia("(max-width:1024px)").matches;
   let autoT = 0;
   function onScroll() {
     if (isMobile) return;
@@ -1426,9 +1436,14 @@ updateCinematicSection();
     dots.forEach((d, k) => d.classList.toggle("on", k === stage));
     if (stage !== lastStage) {
       lastStage = stage;
-      kicker.textContent = copy[stage][0];
-      headline.innerHTML = copy[stage][1];
-      subcopy.textContent = copy[stage][2];
+      const box = document.querySelector(".pace-copy");
+      box.classList.add("swapping");
+      setTimeout(() => {
+        kicker.textContent = copy[stage][0];
+        headline.innerHTML = copy[stage][1];
+        subcopy.textContent = copy[stage][2];
+        box.classList.remove("swapping");
+      }, 400);
     }
     requestAnimationFrame(draw);
   }
@@ -1436,7 +1451,7 @@ updateCinematicSection();
   resize();
   onScroll();
   requestAnimationFrame(draw);
-  
+
   if (isMobile) {
     let mobT = 0,
       playing = false;
@@ -1451,9 +1466,31 @@ updateCinematicSection();
     io.observe(section);
     setInterval(() => {
       if (playing) {
-        mobT += 0.004;
+        mobT += 0.0007;
         targetProg = Math.min(1, mobT % 1.4);
       }
     }, 16);
   }
+})();
+(function () {
+  const cs = document.getElementById("needSelect");
+  if (!cs) return;
+  const trigger = cs.querySelector(".cs-trigger");
+  const valueEl = cs.querySelector(".cs-value");
+  const hidden = cs.querySelector("input[type=hidden]");
+  const items = cs.querySelectorAll(".cs-list li");
+  trigger.addEventListener("click", () => cs.classList.toggle("open"));
+  items.forEach((li) =>
+    li.addEventListener("click", () => {
+      valueEl.textContent = li.textContent;
+      valueEl.setAttribute("data-i18n", li.getAttribute("data-i18n"));
+      hidden.value = li.dataset.value;
+      items.forEach((x) => x.classList.remove("sel"));
+      li.classList.add("sel");
+      cs.classList.remove("open");
+    }),
+  );
+  document.addEventListener("click", (e) => {
+    if (!cs.contains(e.target)) cs.classList.remove("open");
+  });
 })();

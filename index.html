@@ -65,7 +65,6 @@
         <p data-i18n="hero_sub">Construiesc dashboard-uri Power BI, aplicații Power Platform și asistenți Copilot Studio pentru firme care vor claritate financiară, decizii rapide și mai puțin lucru manual.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#contact" data-i18n="hero_primary">Vreau primul audit</a>
-          <a class="btn btn-secondary" href="#showcase" data-i18n="hero_secondary">Vezi conceptul</a>
         </div>
         
       </div>
@@ -129,6 +128,7 @@
 </section>
 
     <section class="section editorial reveal">
+     <svg class="editorial-grid" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true"> <!-- linii orizontale ondulate --> <path d="M0,100 C240,60 480,140 720,100 C960,60 1200,140 1440,100" fill="none" stroke="rgba(124,156,255,.09)" stroke-width="1"/> <path d="M0,220 C240,180 480,260 720,220 C960,180 1200,260 1440,220" fill="none" stroke="rgba(124,156,255,.08)" stroke-width="1"/> <path d="M0,340 C240,300 480,380 720,340 C960,300 1200,380 1440,340" fill="none" stroke="rgba(124,156,255,.09)" stroke-width="1"/> <path d="M0,460 C240,420 480,500 720,460 C960,420 1200,500 1440,460" fill="none" stroke="rgba(124,156,255,.08)" stroke-width="1"/> <path d="M0,580 C240,540 480,620 720,580 C960,540 1200,620 1440,580" fill="none" stroke="rgba(124,156,255,.09)" stroke-width="1"/> <!-- linii verticale ondulate --> <path d="M180,0 C140,175 220,350 180,525 C150,610 200,660 180,700" fill="none" stroke="rgba(124,156,255,.06)" stroke-width="1"/> <path d="M420,0 C380,175 460,350 420,525 C390,610 440,660 420,700" fill="none" stroke="rgba(124,156,255,.06)" stroke-width="1"/> <path d="M660,0 C620,175 700,350 660,525 C630,610 680,660 660,700" fill="none" stroke="rgba(124,156,255,.06)" stroke-width="1"/> <path d="M900,0 C860,175 940,350 900,525 C870,610 920,660 900,700" fill="none" stroke="rgba(124,156,255,.06)" stroke-width="1"/> <path d="M1140,0 C1100,175 1180,350 1140,525 C1110,610 1160,660 1140,700" fill="none" stroke="rgba(124,156,255,.06)" stroke-width="1"/> </svg>
       <div class="editorial-card">
         <p class="mini" data-i18n="editorial_mini">Positioning</p>
         <h2 data-i18n="editorial_title">Pentru firmele care au crescut mai repede decât sistemele lor de raportare.</h2>
@@ -163,7 +163,7 @@
     </section>
 
     <section class="section demo-carousel-section" id="demo">
-
+      
     <div class="demo-section-header">
 
         <span data-i18n="demo_kicker">
@@ -198,7 +198,6 @@ Analytics, Automation and AI solutions designed to help companies move faster, w
 </button>
 
     </div>
-
 </section>
 
 
@@ -555,19 +554,23 @@ Analytics, Automation and AI solutions designed to help companies move faster, w
 </section>
     <section class="section contact" id="contact">
       <div class="contact-panel reveal">
+        
         <div>
           <span class="mini" data-i18n="contact_mini">Start here</span>
           <h2 data-i18n="contact_title">Hai să transformăm un proces lent într-un sistem care arată premium și funcționează.</h2>
           <p data-i18n="contact_text">Formularul deschide emailul tău. Pentru producție îl putem lega la Formspree, Netlify Forms, Supabase sau CRM.</p>
+      <div class="contact-stats"> <div><strong>24h</strong><span>Response time</span></div> <div><strong>Free</strong><span>First call</span></div> <div><strong>0€</strong><span>Until we start</span></div> </div>
+
         </div>
         <form id="contactForm" class="form-card">
-          <label><span data-i18n="form_name">Nume</span><input name="name" autocomplete="name" required placeholder="Alin Constantin"></label>
-          <label><span data-i18n="form_email">Email</span><input name="email" type="email" autocomplete="email" required placeholder="you@company.com"></label>
-          <label><span data-i18n="form_need">Ce vrei să rezolvi?</span><select name="need"><option data-i18n="need_1">Raportare manuală</option><option data-i18n="need_2">Power BI dashboard</option><option data-i18n="need_3">Power Platform automation</option><option data-i18n="need_4">Copilot Studio assistant</option></select></label>
-          <label><span data-i18n="form_msg">Mesaj</span><textarea name="message" rows="4" placeholder="Scrie pe scurt contextul..."></textarea></label>
+          <label><span data-i18n="form_name">Nume</span><input name="name" autocomplete="name" required data-i18n-ph="ph_name" placeholder="Prenume + Nume"></label>
+          <label><span data-i18n="form_email">Email</span><input name="email" type="email" autocomplete="email" required data-i18n-ph="ph_email" placeholder="you@company.com"></label>
+<label> <span data-i18n="form_need">Ce vrei să rezolvi?</span> <div class="custom-select" id="needSelect"> <button type="button" class="cs-trigger"> <span class="cs-value" data-i18n="need_1">Analytics & Reporting</span> <svg viewBox="0 0 24 24" width="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg> </button> <ul class="cs-list"> <li data-value="Analytics & Reporting" data-i18n="need_1">Analytics & Reporting</li> <li data-value="Automation & Workflows" data-i18n="need_2">Automation & Workflows</li> <li data-value="AI Solutions" data-i18n="need_3">AI Solutions</li> <li data-value="Business Optimization" data-i18n="need_4">Business Optimization</li> </ul> <input type="hidden" name="need" value="Analytics & Reporting"> </div> </label>          <label><span data-i18n="form_msg">Mesaj</span><textarea name="message" rows="4" data-i18n-ph="ph_msg" placeholder="Scrie pe scurt contextul..."></textarea></label>
           <button class="btn btn-primary dark" type="submit" data-i18n="form_btn">Trimite cererea</button>
          
         </form>
+                
+
       </div>
     </section>
   </main>
