@@ -34,7 +34,7 @@
     </button>
 
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="#work" data-i18n="nav_work">How it works?</a>
+      <a href="#paceMorph" data-i18n="nav_work">How it works?</a>
       <a href="#method" data-i18n="nav_method">Metodă</a>
       <a href="#demo" data-i18n="nav_solutions">Soluții</a>
       <a href="#pricing" data-i18n="nav_pricing">Pachete</a>
@@ -106,36 +106,27 @@
       </div>
     </section>
 
-    <section class="section logos reveal">
-      <p data-i18n="logos_text">Built for teams that live in Microsoft 365, Excel and operational systems.</p>
-      <div>
-        <span>Data</span><span>Analytics</span><span>Automation</span><span>AI</span><span>Workflows</span><span>Microsoft 365</span>
-      </div>
-    </section>
+    
 
-    <section class="section split" id="work">
-      <div class="section-kicker reveal">
-        <span data-i18n="solutions_kicker">Solutions</span>
-        <h2 data-i18n="solutions_title">Nu vând dashboard-uri. Vând control.</h2>
+ 
+
+
+    <section class="pace-morph" id="paceMorph">
+  <div class="pace-sticky">
+    <canvas id="paceCanvas"></canvas>
+    <div class="pace-overlay">
+      <div class="pace-copy">
+        <span class="pace-kicker" id="kicker">Digitalization</span>
+        <h2 id="headline">What is <span class="g">digitalization?</span></h2>
+        <p id="subcopy">Turning manual work into one connected digital system. Scroll to build it.</p>
       </div>
-      <div class="solution-grid">
-        <article class="solution-card reveal">
-          <span class="num">01</span>
-          <h3 data-i18n="sol1_title">CFO Intelligence Layer</h3>
-          <p data-i18n="sol1_desc">Un model de date financiar, KPI-uri executive și cockpit Power BI pentru cashflow, profitabilitate, costuri și forecast.</p>
-        </article>
-        <article class="solution-card reveal delay-1">
-          <span class="num">02</span>
-          <h3 data-i18n="sol2_title">Operations Automation</h3>
-          <p data-i18n="sol2_desc">Fluxuri Power Automate și Power Apps pentru aprobări, facturi, taskuri recurente, notificări și trasabilitate.</p>
-        </article>
-        <article class="solution-card reveal delay-2">
-          <span class="num">03</span>
-          <h3 data-i18n="sol3_title">Copilot Studio Assistant</h3>
-          <p data-i18n="sol3_desc">Agent AI conectat la documentație, procese și rapoarte, astfel încât echipa să poată întreba în limbaj natural.</p>
-        </article>
-      </div>
-    </section>
+    </div>
+    <div class="scrollhint">SCROLL ↓</div>
+    <div class="pace-progress"><i></i></div>
+    <div class="pace-label"><small id="stepNum">00</small><strong id="stepName">DIGITALIZATION</strong></div>
+    <div class="pace-dots" id="dots"></div>
+  </div>
+</section>
 
     <section class="section editorial reveal">
       <div class="editorial-card">
@@ -635,6 +626,8 @@ Analytics, Automation and AI solutions designed to help companies move faster, w
 
 </div>
 
-  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
