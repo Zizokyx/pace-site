@@ -1436,4 +1436,24 @@ updateCinematicSection();
   resize();
   onScroll();
   requestAnimationFrame(draw);
+  const isMobile = window.matchMedia("(max-width:768px)").matches;
+  if (isMobile) {
+    let mobT = 0,
+      playing = false;
+    const io = new IntersectionObserver(
+      (es) => {
+        es.forEach((e) => {
+          playing = e.isIntersecting;
+        });
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(section);
+    setInterval(() => {
+      if (playing) {
+        mobT += 0.004;
+        targetProg = Math.min(1, mobT % 1.4);
+      }
+    }, 16);
+  }
 })();
