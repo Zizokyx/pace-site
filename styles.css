@@ -2138,4 +2138,5 @@ html[data-lang="en"] .lang-switch i:before {
   .pace-copy h2{font-size:40px}
   .pace-progress{bottom:96px}
 }
-@media(max-width:768px){ .pace-morph{height:70vh} .pace-sticky{position:relative;height:70vh} }
+
+@media(max-width:768px){ .pace-morph{height:auto} .pace-sticky{position:relative;height:100vh} }

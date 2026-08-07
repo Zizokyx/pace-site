@@ -1436,7 +1436,7 @@ updateCinematicSection();
   resize();
   onScroll();
   requestAnimationFrame(draw);
-  const isMobile = window.matchMedia("(max-width:768px)").matches;
+  
   if (isMobile) {
     let mobT = 0,
       playing = false;
