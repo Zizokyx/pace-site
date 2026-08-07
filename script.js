@@ -1466,10 +1466,10 @@ updateCinematicSection();
     io.observe(section);
     setInterval(() => {
       if (playing) {
-        mobT += 0.0007;
+        mobT += 0.0008;
         targetProg = Math.min(1, mobT % 1.4);
       }
-    }, 5);
+    }, 16);
   }
 })();
 (function () {
