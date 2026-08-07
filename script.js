@@ -1469,7 +1469,7 @@ updateCinematicSection();
         mobT += 0.0007;
         targetProg = Math.min(1, mobT % 1.4);
       }
-    }, 16);
+    }, 5);
   }
 })();
 (function () {
