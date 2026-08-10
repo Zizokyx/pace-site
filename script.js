@@ -49,6 +49,8 @@ const translations = {
     method_kicker: "ABORDARE",
     method_title: "Cum transformăm performanța în rezultate.",
     m1_title: "Înțelegem",
+    fc_you_1: "Ok, dar e cumva o discuție de vânzare?",
+    fc_you_2: "Și după call?",
     m1_desc:
       "Identificăm oportunitățile, blocajele și zonele cu cel mai mare impact.",
     m2_title: "Construim",
@@ -134,7 +136,16 @@ const translations = {
       "Dacă are sens să continuăm, stabilim scope-ul și pașii concreți. Dacă nu, pleci tot cu ceva util.",
     fc_note:
       "Free call ≠ audit plătit. Call-ul e o discuție de orientare, gratuită. Analiza detaliată pe datele tale, cu document și roadmap, este pachetul „Discovery” de mai jos.",
-
+    cf_q: "Întrebarea",
+    cf_name_q: "Cum te numești?",
+    cf_email_q: "Care e emailul tău?",
+    cf_msg_q: "Mai vrei să adaugi ceva?",
+    cf_continue: "Continuă",
+    cf_enter: "Apasă Enter ↵",
+    cf_nospam: "Fără spam. Promitem.",
+    cf_optional: "Opțional",
+    cf_done_t: "Am primit cererea!",
+    cf_done_p: "Îți răspund în 24h. Prima discuție e gratuită.",
     demo_cta_button: "Programează o discuție",
     demo_ai_text:
       "Asistent inteligent construit pentru a oferi răspunsuri, insight-uri și acces instant la cunoștințele companiei.",
@@ -176,6 +187,8 @@ const translations = {
     ph_msg: "Scrie pe scurt contextul...",
   },
   en: {
+    fc_you_1: "Ok, but is this a sales pitch?",
+    fc_you_2: "And after the call?",
     ph_name: "First name + Last name",
     ph_email: "you@company.com",
     ph_msg: "Briefly describe your context...",
@@ -315,7 +328,16 @@ const translations = {
     p2_title: "Performance System",
     p2_desc:
       "A tailored solution built around your data, processes and business goals.",
-
+    cf_q: "Question",
+    cf_name_q: "What's your name?",
+    cf_email_q: "What's your email?",
+    cf_msg_q: "Anything to add?",
+    cf_continue: "Continue",
+    cf_enter: "Press Enter ↵",
+    cf_nospam: "No spam. Promise.",
+    cf_optional: "Optional",
+    cf_done_t: "Request received!",
+    cf_done_p: "I'll reply within 24h. First call is free.",
     p2_li1: "Analytics & reporting",
     p2_li2: "Process optimization",
     p2_li3: "Automation & AI",
@@ -1492,5 +1514,413 @@ updateCinematicSection();
   );
   document.addEventListener("click", (e) => {
     if (!cs.contains(e.target)) cs.classList.remove("open");
+  });
+})();
+
+/* ===== PACE APPROACH — TREASURE MAP (auto-play on scroll into view) ===== */ (function () {
+  const section = document.getElementById("method");
+  if (!section) return;
+  const route = document.getElementById("route");
+  const stops = [...section.querySelectorAll(".stop")];
+  const traveler = document.getElementById("traveler");
+  const svg = section.querySelector(".route");
+  if (!route) return;
+  const len = route.getTotalLength();
+  route.style.strokeDasharray = len;
+  route.style.strokeDashoffset = len;
+  let played = false;
+  function play() {
+    if (played) return;
+    played = true;
+    const DUR = 2800;
+    const start = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - start) / DUR);
+      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      route.style.strokeDashoffset = len * (1 - e);
+      if (e > 0.01 && e < 0.999) {
+        const pt = route.getPointAtLength(len * e);
+        const box = svg.getBoundingClientRect();
+        traveler.classList.add("show");
+        traveler.style.left = pt.x * (box.width / 1200) - 8 + "px";
+        traveler.style.top = pt.y * (box.height / 220) - 8 + "px";
+      } else if (e >= 0.999) {
+        traveler.classList.remove("show");
+      }
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    [200, 950, 1700, 2450].forEach((d, i) =>
+      setTimeout(() => {
+        if (stops[i]) stops[i].classList.add("show");
+      }, d),
+    );
+  }
+  const io = new IntersectionObserver(
+    (es) => {
+      es.forEach((e) => {
+        if (e.isIntersecting) play();
+      });
+    },
+    { threshold: 0.35 },
+  );
+  io.observe(section);
+})();
+/* ===== PACE CALCULATOR — THE LEAK ===== */ (function () {
+  const hours = document.getElementById("hours"),
+    rate = document.getElementById("rate");
+  const hoursLabel = document.getElementById("hoursLabel"),
+    rateLabel = document.getElementById("rateLabel");
+  const hoursFill = document.getElementById("hoursFill"),
+    rateFill = document.getElementById("rateFill");
+  const totalEl = document.getElementById("totalValue");
+  const perYear = document.getElementById("perYear"),
+    hoursYear = document.getElementById("hoursYear"),
+    workDays = document.getElementById("workDays");
+  const canvas = document.getElementById("leak");
+  if (!hours || !canvas) return;
+  const ctx = canvas.getContext("2d");
+  const fmt = (n) => "€" + Math.round(n).toLocaleString("en-US");
+  let shown = 1890;
+  let W, H, DPR;
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = r.width;
+    H = r.height;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener("resize", resize);
+  const spr = {};
+  function sprite(c) {
+    if (spr[c]) return spr[c];
+    const s = 28,
+      cv = document.createElement("canvas");
+    cv.width = cv.height = s;
+    const g = cv.getContext("2d");
+    const gr = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    gr.addColorStop(0, c);
+    gr.addColorStop(0.35, c);
+    gr.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = gr;
+    g.beginPath();
+    g.arc(s / 2, s / 2, s / 2, 0, 6.28);
+    g.fill();
+    spr[c] = cv;
+    return cv;
+  }
+  const drops = [],
+    splashes = [];
+  let leakInterval = 520,
+    poolLevel = 0,
+    targetPool = 0.3,
+    lastDrop = 0;
+  function values() {
+    const h = +hours.value,
+      r = +rate.value,
+      monthly = h * r;
+    if (hoursLabel) hoursLabel.textContent = h;
+    if (rateLabel) rateLabel.textContent = r + "€";
+    hoursFill.style.width =
+      ((h - hours.min) / (hours.max - hours.min)) * 100 + "%";
+    rateFill.style.width = ((r - rate.min) / (rate.max - rate.min)) * 100 + "%";
+    if (perYear) perYear.textContent = fmt(monthly * 12);
+    if (hoursYear) hoursYear.textContent = h * 12 + "h";
+    if (workDays) workDays.textContent = Math.round((h * 12) / 8);
+    const norm = Math.min(1, (monthly - 50) / (160 * 150 - 50));
+    leakInterval = 700 - norm * 560;
+    targetPool = 0.16 + norm * 0.62;
+    const start = shown,
+      t0 = performance.now(),
+      dur = 450,
+      target = monthly;
+    (function step(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 3);
+      if (totalEl) totalEl.textContent = fmt(start + (target - start) * e);
+      if (t < 1) requestAnimationFrame(step);
+      else shown = target;
+    })(t0);
+  }
+  hours.addEventListener("input", values);
+  rate.addEventListener("input", values);
+  function roundRect(c, x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+  let t = 0;
+  function draw(now) {
+    t += 0.016;
+    ctx.clearRect(0, 0, W, H);
+    const tankX = W * 0.5,
+      tankTop = H * 0.14,
+      tankW = W * 0.56,
+      tankH = H * 0.3;
+    const tx = tankX - tankW / 2,
+      ty = tankTop,
+      crackX = tankX,
+      crackY = ty + tankH;
+    roundRect(ctx, tx, ty, tankW, tankH, 18);
+    ctx.fillStyle = "rgba(124,156,255,.06)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(124,156,255,.4)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    const liq = 0.72,
+      ly = ty + tankH * (1 - liq) + 6;
+    ctx.save();
+    roundRect(ctx, tx + 4, ty + 4, tankW - 8, tankH - 8, 14);
+    ctx.clip();
+    const g = ctx.createLinearGradient(0, ly, 0, ty + tankH);
+    g.addColorStop(0, "rgba(255,177,92,.9)");
+    g.addColorStop(1, "rgba(255,93,108,.9)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(tx, ly);
+    for (let x = tx; x <= tx + tankW; x += 8) {
+      ctx.lineTo(x, ly + Math.sin(x * 0.05 + t * 1.6) * 3);
+    }
+    ctx.lineTo(tx + tankW, ty + tankH);
+    ctx.lineTo(tx, ty + tankH);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,.18)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(tx, ly);
+    for (let x = tx; x <= tx + tankW; x += 8) {
+      ctx.lineTo(x, ly + Math.sin(x * 0.05 + t * 1.6) * 3);
+    }
+    ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = "rgba(255,93,108,.9)";
+    ctx.beginPath();
+    ctx.moveTo(crackX - 6, crackY - 2);
+    ctx.lineTo(crackX, crackY + 9);
+    ctx.lineTo(crackX + 6, crackY - 2);
+    ctx.closePath();
+    ctx.fill();
+    if (!lastDrop) lastDrop = now || 0;
+    if ((now || 0) - lastDrop >= leakInterval) {
+      lastDrop = now;
+      drops.push({ x: crackX, y: crackY + 8, vy: 0.6, r: 5, stretch: 1 });
+    }
+    poolLevel += (targetPool - poolLevel) * 0.04;
+    const poolH = poolLevel * H * 0.15,
+      poolY = H - poolH;
+    const pg = ctx.createLinearGradient(0, poolY, 0, H);
+    pg.addColorStop(0, "rgba(255,93,108,.5)");
+    pg.addColorStop(1, "rgba(255,93,108,.18)");
+    ctx.fillStyle = pg;
+    ctx.beginPath();
+    ctx.moveTo(0, poolY + Math.sin(t * 2) * 3);
+    for (let x = 0; x <= W; x += 14) {
+      ctx.lineTo(x, poolY + Math.sin(x * 0.03 + t * 2) * 4);
+    }
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fill();
+    for (let i = drops.length - 1; i >= 0; i--) {
+      const d = drops[i];
+      d.vy += 0.16;
+      d.y += d.vy;
+      d.stretch = Math.min(1.8, 1 + d.vy * 0.06);
+      if (d.y >= poolY - 3) {
+        splashes.push({ x: d.x, y: poolY, r: 4, life: 1 });
+        for (let k = 0; k < 4; k++)
+          splashes.push({
+            x: d.x,
+            y: poolY,
+            r: 2,
+            life: 1,
+            vx: (Math.random() - 0.5) * 2.4,
+            vy: -(1 + Math.random() * 1.6),
+            tiny: true,
+          });
+        drops.splice(i, 1);
+        continue;
+      }
+      const sp = sprite("rgba(255,120,130,1)");
+      ctx.globalAlpha = 0.55;
+      ctx.drawImage(sp, d.x - d.r * 2.2, d.y - d.r * 2.2, d.r * 4.4, d.r * 4.4);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#ffd0d5";
+      ctx.beginPath();
+      ctx.ellipse(d.x, d.y, d.r * 0.55, d.r * 0.55 * d.stretch, 0, 0, 6.28);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.6)";
+      ctx.beginPath();
+      ctx.arc(d.x - 1.5, d.y - 2, d.r * 0.2, 0, 6.28);
+      ctx.fill();
+    }
+    for (let i = splashes.length - 1; i >= 0; i--) {
+      const s = splashes[i];
+      s.life -= 0.05;
+      if (s.tiny) {
+        s.vy += 0.18;
+        s.x += s.vx;
+        s.y += s.vy;
+        ctx.fillStyle = `rgba(255,150,160,${Math.max(0, s.life)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, 6.28);
+        ctx.fill();
+      } else {
+        s.r += 1.6;
+        ctx.strokeStyle = `rgba(255,93,108,${Math.max(0, s.life * 0.6)})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(s.x, s.y, s.r, s.r * 0.4, 0, 0, 6.28);
+        ctx.stroke();
+      }
+      if (s.life <= 0) splashes.splice(i, 1);
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  values();
+  requestAnimationFrame(draw);
+})();
+/* ===== PACE PRICING — DASHBOARD CONSOLE ===== */ (function () {
+  const section = document.querySelector(".pricing-dash");
+  if (!section) return;
+  const segs = [...section.querySelectorAll(".pd-seg")];
+  const panels = [...section.querySelectorAll(".pd-panel")];
+  segs.forEach((seg) => {
+    seg.addEventListener("click", () => {
+      const i = seg.dataset.pkg;
+      segs.forEach((s) => s.classList.remove("on"));
+      seg.classList.add("on");
+      panels.forEach((p) => p.classList.toggle("active", p.dataset.pkg === i));
+    });
+  });
+})();
+
+(function () {
+  const section = document.getElementById("free-call-explained");
+  if (!section) return;
+  const chat = document.getElementById("fcChat");
+  if (!chat) return;
+  const msgs = [...chat.querySelectorAll(".fc-msg")];
+  msgs.forEach((m) => (m.style.display = "none"));
+  let played = false;
+  function typing() {
+    const d = document.createElement("div");
+    d.className = "fc-typing";
+    d.innerHTML = "<i></i><i></i><i></i>";
+    chat.appendChild(d);
+    return d;
+  }
+  function reveal(m) {
+    m.style.display = "";
+    m.classList.add("show");
+  }
+  function run() {
+    let i = 0;
+    function next() {
+      if (i >= msgs.length) return;
+      const m = msgs[i];
+      const isPace = m.classList.contains("pace");
+      if (isPace) {
+        const tp = typing();
+        setTimeout(() => {
+          tp.remove();
+          reveal(m);
+          i++;
+          setTimeout(next, 900);
+        }, 900);
+      } else {
+        reveal(m);
+        i++;
+        setTimeout(next, 1200);
+      }
+    }
+    next();
+  }
+  new IntersectionObserver(
+    (es) => {
+      es.forEach((e) => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          run();
+        }
+      });
+    },
+    { threshold: 0.3 },
+  ).observe(section);
+})();
+/* ===== PACE CONTACT — CONVERSATIONAL FORM ===== */
+(function () {
+  const form = document.getElementById("contactForm");
+  if (!form || !form.querySelector(".cf-step")) return;
+  const steps = [...form.querySelectorAll(".cf-step")];
+  const prog = document.getElementById("cfProg");
+  const hiddenNeed = form.querySelector('input[name="need"]');
+  let cur = 0;
+  function show(n) {
+    steps[cur].classList.remove("active");
+    if (n > cur) steps[cur].classList.add("past");
+    cur = n;
+    steps.forEach((s, i) => {
+      s.classList.toggle("active", i === cur);
+      if (i < cur) s.classList.add("past");
+      else if (i > cur) s.classList.remove("past");
+    });
+    if (prog) prog.style.width = ((cur + 1) / steps.length) * 100 + "%";
+    const inp = steps[cur].querySelector("input,textarea");
+    if (inp) setTimeout(() => inp.focus(), 300);
+  }
+  function validStep() {
+    const inp = steps[cur].querySelector("input[required],input[type=email]");
+    if (!inp) return true;
+    if (!inp.value.trim()) {
+      inp.focus();
+      inp.style.borderColor = "#ff6b7d";
+      return false;
+    }
+    if (inp.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inp.value)) {
+      inp.focus();
+      inp.style.borderColor = "#ff6b7d";
+      return false;
+    }
+    inp.style.borderColor = "";
+    return true;
+  }
+  // "Continue" buttons (steps 0 and 1)
+  form.querySelectorAll("[data-next]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (validStep()) show(cur + 1);
+    });
+  });
+  // // option buttons
+  // (step 2) -> set hidden need + advance
+  form.querySelectorAll(".cf-opt").forEach((opt) => {
+    opt.addEventListener("click", () => {
+      if (hiddenNeed) hiddenNeed.value = opt.dataset.value;
+      show(cur + 1);
+    });
+  }); // Enter key advances
+  form.querySelectorAll("input").forEach((inp) => {
+    inp.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const b = steps[cur].querySelector("[data-next],[type=submit]");
+        if (b) b.click();
+      }
+    });
+  });
+  // // on submit -> go to done screen (after your existing sender runs)
+  form.addEventListener("submit", () => {
+    setTimeout(() => {
+      show(steps.length - 1);
+      if (prog) prog.parentElement.style.display = "none";
+    }, 50);
   });
 })();
