@@ -147,6 +147,9 @@ const translations = {
     cf_done_t: "Am primit cererea!",
     cf_done_p: "Îți răspund în 24h. Prima discuție e gratuită.",
     demo_cta_button: "Programează o discuție",
+    footer_cta_a: "Pregătit să",
+    footer_cta_b: "accelerezi?",
+    footer_cta_btn: "Discuție gratuită →",
     demo_ai_text:
       "Asistent inteligent construit pentru a oferi răspunsuri, insight-uri și acces instant la cunoștințele companiei.",
     demo_ai: "Asistent AI",
@@ -161,7 +164,7 @@ const translations = {
     p3_li2: "Plan de optimizare",
     p3_li3: "Suport Analytics & AI",
     p1_note: "Costul se scade integral din proiectul următor.",
-    p3_note: "Fără contract pe termen lung — anulezi oricând.",
+    p3_note: "Fără contract pe termen lung, anulezi oricând.",
     contact_mini: "HAI SĂ DISCUTĂM",
     contact_title:
       "Descoperă cum datele, automatizarea și AI-ul pot accelera performanța companiei.",
@@ -222,7 +225,7 @@ const translations = {
     footer_desc: "Helping companies turn data into performance.",
     demo_bi_kicker: "PERFORMANCE ANALYTICS",
     p1_note: "Fully credited toward your next project.",
-    p3_note: "No long-term contract — cancel anytime.",
+    p3_note: "No long-term contract, cancel anytime.",
     p2_li4: "2 revision rounds + training",
     p2_note: "Fixed project price, no hidden costs.",
     demo_bi_title: "PACE Performance Intelligence Suite",
@@ -250,6 +253,9 @@ const translations = {
     fc_1_p:
       "A structured conversation about your context: where the reporting or process problem sits, and what's worth analysing.",
     fc_2_t: "Direction, not a pitch",
+    footer_cta_a: "Ready to",
+    footer_cta_b: "move faster?",
+    footer_cta_btn: "Book a free call →",
     fc_2_p:
       "An honest read on whether and how I can help, plus 1–2 directions you can act on even if we don't work together.",
     fc_3_t: "Clear next steps",
@@ -728,22 +734,22 @@ updateCinematicSection();
       "Turning scattered manual work into one connected system of data, automation and AI.",
     ],
     [
-      "Step 01 — The Problem",
+      "Step 01 - The Problem",
       "Disorganized <span class='g'>reports.</span>",
       "Messy spreadsheets, emails and documents scattered everywhere — no single source of truth.",
     ],
     [
-      "Step 02 — Automation",
+      "Step 02 - Automation",
       "Reports become <span class='g'>automated flows.</span>",
       "The same data is pulled into controlled, automated workflows that run on their own.",
     ],
     [
-      "Step 03 — Dashboards",
+      "Step 03 - Dashboards",
       "Data becomes <span class='g'>live dashboards.</span>",
       "Automated data forms executive dashboards with KPIs, charts and real-time visibility.",
     ],
     [
-      "Step 04 — AI Assistant",
+      "Step 04 - AI Assistant",
       "Dashboards gain <span class='g'>an AI brain.</span>",
       "A Copilot assistant is built on top, answering questions and guiding decisions.",
     ],
@@ -1923,4 +1929,101 @@ updateCinematicSection();
       if (prog) prog.parentElement.style.display = "none";
     }, 50);
   });
+})();
+/* ===== PACE FOOTER — CIRCUIT ===== */ (function () {
+  const ftr = document.getElementById("siteFooter");
+  const cv = document.getElementById("footerBg");
+  if (!ftr || !cv) return;
+  const ctx = cv.getContext("2d");
+  let W,
+    H,
+    GS = 48,
+    traces = [],
+    pulses = [],
+    mouse = { x: -999, y: -999 };
+  function tracePath(tr) {
+    const p = [[tr.x, tr.y]];
+    if (tr.dir === "h") {
+      p.push([tr.x + tr.len, tr.y]);
+      if (tr.bend) p.push([tr.x + tr.len, tr.y + GS]);
+    } else {
+      p.push([tr.x, tr.y + tr.len]);
+      if (tr.bend) p.push([tr.x + GS, tr.y + tr.len]);
+    }
+    return p;
+  }
+  function build() {
+    const r = ftr.getBoundingClientRect();
+    W = cv.width = r.width;
+    H = cv.height = r.height;
+    traces = [];
+    const cols = Math.ceil(W / GS),
+      rows = Math.ceil(H / GS);
+    for (let i = 0; i < cols * rows * 0.5; i++) {
+      const cx = ((Math.random() * cols) | 0) * GS,
+        cy = ((Math.random() * rows) | 0) * GS;
+      const len = ((1 + Math.random() * 3) | 0) * GS;
+      const dir = Math.random() < 0.5 ? "h" : "v";
+      const bend = Math.random() < 0.5;
+      traces.push({ x: cx, y: cy, len, dir, bend });
+    }
+    pulses = [];
+    for (let i = 0; i < 20; i++)
+      pulses.push({
+        tr: traces[(Math.random() * traces.length) | 0],
+        t: Math.random(),
+        sp: 0.006 + Math.random() * 0.01,
+      });
+  }
+  ftr.addEventListener("pointermove", (e) => {
+    const r = ftr.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  });
+  ftr.addEventListener("pointerleave", () => {
+    mouse.x = -999;
+    mouse.y = -999;
+  });
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const tr of traces) {
+      const p = tracePath(tr);
+      const near = Math.hypot(p[0][0] - mouse.x, p[0][1] - mouse.y) < 150;
+      ctx.strokeStyle = near ? "rgba(84,231,255,.4)" : "rgba(124,156,255,.09)";
+      ctx.lineWidth = near ? 1.6 : 1;
+      ctx.beginPath();
+      ctx.moveTo(p[0][0], p[0][1]);
+      for (let i = 1; i < p.length; i++) ctx.lineTo(p[i][0], p[i][1]);
+      ctx.stroke();
+      ctx.fillStyle = near ? "#54e7ff" : "rgba(124,156,255,.4)";
+      ctx.beginPath();
+      ctx.arc(p[0][0], p[0][1], near ? 3 : 2, 0, 6.28);
+      ctx.fill();
+    }
+    for (const pu of pulses) {
+      pu.t += pu.sp;
+      if (pu.t > 1) {
+        pu.t = 0;
+        pu.tr = traces[(Math.random() * traces.length) | 0];
+      }
+      const p = tracePath(pu.tr);
+      const total = p.length - 1;
+      const f = pu.t * total;
+      const i = Math.min(total - 1, f | 0);
+      const lf = f - i;
+      const x = p[i][0] + (p[i + 1][0] - p[i][0]) * lf,
+        y = p[i][1] + (p[i + 1][1] - p[i][1]) * lf;
+      ctx.fillStyle = "#b9ffef";
+      ctx.shadowColor = "#54e7ff";
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, 6.28);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener("resize", build);
+  build();
+  draw();
 })();
