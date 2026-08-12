@@ -885,13 +885,14 @@ updateCinematicSection();
     });
   }
 
-  function rr(x, y, w, h, r) {
+  function rr(x, y, w, h, rad) {
+    const r = Math.min(rad, w / 2, h / 2);
     ctx.beginPath();
     ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
+    ctx.arcTo(x + w, y, x + w, y + h, r); // sus-dreapta
+    ctx.arcTo(x + w, y + h, x, y + h, r); // jos-dreapta
+    ctx.arcTo(x, y + h, x, y, r); // jos-stânga
+    ctx.arcTo(x, y, x + w, y, r); // sus-stânga
     ctx.closePath();
   }
   function glow(c, w) {
@@ -2026,4 +2027,347 @@ updateCinematicSection();
   window.addEventListener("resize", build);
   build();
   draw();
+})();
+/* ===== FOOTER-STYLE HERO — circuit network canvas ===== */
+(function () {
+  const host = document.querySelector(".hero-fs");
+  const cv = document.getElementById("heroBg");
+  if (!host || !cv) return;
+  const ctx = cv.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let W,
+    H,
+    GS = 48,
+    traces = [],
+    pulses = [],
+    mouse = { x: -999, y: -999 };
+
+  function tracePath(tr) {
+    const p = [[tr.x, tr.y]];
+    if (tr.dir === "h") {
+      p.push([tr.x + tr.len, tr.y]);
+      if (tr.bend) p.push([tr.x + tr.len, tr.y + GS]);
+    } else {
+      p.push([tr.x, tr.y + tr.len]);
+      if (tr.bend) p.push([tr.x + GS, tr.y + tr.len]);
+    }
+    return p;
+  }
+  function build() {
+    const r = host.getBoundingClientRect();
+    W = cv.width = r.width;
+    H = cv.height = r.height;
+    traces = [];
+    const cols = Math.ceil(W / GS),
+      rows = Math.ceil(H / GS);
+    for (let i = 0; i < cols * rows * 0.5; i++) {
+      const cx = ((Math.random() * cols) | 0) * GS,
+        cy = ((Math.random() * rows) | 0) * GS;
+      const len = ((1 + Math.random() * 3) | 0) * GS;
+      const dir = Math.random() < 0.5 ? "h" : "v";
+      const bend = Math.random() < 0.5;
+      traces.push({ x: cx, y: cy, len, dir, bend });
+    }
+    pulses = [];
+    for (let i = 0; i < 24; i++)
+      pulses.push({
+        tr: traces[(Math.random() * traces.length) | 0],
+        t: Math.random(),
+        sp: 0.006 + Math.random() * 0.01,
+      });
+  }
+  host.addEventListener("pointermove", (e) => {
+    const r = host.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  });
+  host.addEventListener("pointerleave", () => {
+    mouse.x = -999;
+    mouse.y = -999;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const tr of traces) {
+      const p = tracePath(tr);
+      const near = Math.hypot(p[0][0] - mouse.x, p[0][1] - mouse.y) < 150;
+      ctx.strokeStyle = near ? "rgba(84,231,255,.4)" : "rgba(124,156,255,.09)";
+      ctx.lineWidth = near ? 1.6 : 1;
+      ctx.beginPath();
+      ctx.moveTo(p[0][0], p[0][1]);
+      for (let i = 1; i < p.length; i++) ctx.lineTo(p[i][0], p[i][1]);
+      ctx.stroke();
+      ctx.fillStyle = near ? "#54e7ff" : "rgba(124,156,255,.4)";
+      ctx.beginPath();
+      ctx.arc(p[0][0], p[0][1], near ? 3 : 2, 0, 6.28);
+      ctx.fill();
+    }
+    for (const pu of pulses) {
+      pu.t += pu.sp;
+      if (pu.t > 1) {
+        pu.t = 0;
+        pu.tr = traces[(Math.random() * traces.length) | 0];
+      }
+      const p = tracePath(pu.tr);
+      const total = p.length - 1;
+      const f = pu.t * total;
+      const i = Math.min(total - 1, f | 0);
+      const lf = f - i;
+      const x = p[i][0] + (p[i + 1][0] - p[i][0]) * lf,
+        y = p[i][1] + (p[i + 1][1] - p[i][1]) * lf;
+      ctx.fillStyle = "#b9ffef";
+      ctx.shadowColor = "#54e7ff";
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.4, 0, 6.28);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", build);
+  build();
+  draw();
+})();
+
+/* ===== HERO SWARM — drift, gather, then MORPH into solid logo bars ===== */
+(function () {
+  const host = document.querySelector(".hero-fs");
+  const cv = document.getElementById("heroSwarm");
+  const anchor = document.getElementById("logoAnchor");
+  if (!host || !cv || !anchor) return;
+  const ctx = cv.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  let W,
+    H,
+    targets = [],
+    parts = [],
+    bars = [],
+    start = 0;
+
+  const T_DRIFT = 0.9; // plutire liberă
+  const T_GATHER = 1.0; // adunarea în formă
+  const T_MORPH = 0.6; // puncte -> bare solide
+  const T_ASSEMBLED = T_DRIFT + T_GATHER; // punctele au ajuns
+  const T_DONE = T_ASSEMBLED + T_MORPH; // barele solide gata
+
+  function geometry() {
+    const r = anchor.getBoundingClientRect();
+    const hr = host.getBoundingClientRect();
+    const ox = r.left - hr.left,
+      oy = r.top - hr.top;
+    const bw = 13,
+      gap = 9,
+      baseY = 57;
+    const startX = (120 - (bw * 3 + gap * 2)) / 2;
+    const defs = [
+      { x: startX, h: 24 },
+      { x: startX + bw + gap, h: 38 },
+      { x: startX + 2 * (bw + gap), h: 52 },
+    ];
+    return { ox, oy, bw, baseY, defs };
+  }
+
+  function buildTargets() {
+    const { ox, oy, bw, baseY, defs } = geometry();
+    targets = [];
+    bars = [];
+    defs.forEach((b, bi) => {
+      bars.push({ x: ox + b.x, y: oy + baseY - b.h, w: bw, h: b.h });
+      const cols = 3,
+        rows = Math.max(3, Math.round(b.h / 3.5));
+      for (let c = 0; c < cols; c++)
+        for (let ry = 0; ry < rows; ry++) {
+          const tx = ox + b.x + 2 + (c * (bw - 4)) / (cols - 1);
+          const ty = oy + baseY - 2 - (ry * (b.h - 4)) / (rows - 1);
+          const hf = (baseY - (ty - oy)) / 54;
+          targets.push({ x: tx, y: ty, hf, bi });
+        }
+    });
+  }
+
+  function col(hf) {
+    const r = Math.round(124 + (185 - 124) * hf),
+      g = Math.round(156 + (255 - 156) * hf),
+      b = Math.round(255 + (239 - 255) * hf);
+    return `${r},${g},${b}`;
+  }
+  function ease(x) {
+    x = Math.max(0, Math.min(1, x));
+    return 1 - Math.pow(1 - x, 3);
+  }
+  function rr(x, y, w, h, rad) {
+    const r = Math.min(rad, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); // sus-dreapta
+    ctx.arcTo(x + w, y + h, x, y + h, r); // jos-dreapta
+    ctx.arcTo(x, y + h, x, y, r); // jos-stânga
+    ctx.arcTo(x, y, x + w, y, r); // sus-stânga
+    ctx.closePath();
+  }
+
+  function build() {
+    const rc = host.getBoundingClientRect();
+    W = rc.width;
+    H = rc.height;
+    cv.width = W * DPR;
+    cv.height = H * DPR;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    buildTargets();
+
+    parts = [];
+    for (let i = 0; i < targets.length; i++) {
+      const t = targets[i];
+      parts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 26,
+        vy: (Math.random() - 0.5) * 26,
+        r: 1 + Math.random() * 1.4,
+        hf: t.hf,
+        tx: t.x,
+        ty: t.y,
+        seed: Math.random() * 6.28,
+        delay: t.bi * 0.12 + t.hf * 0.35 + Math.random() * 0.15,
+        gx: 0,
+        gy: 0,
+      });
+    }
+    start = performance.now();
+  }
+
+  function drawBars(alpha, t) {
+    ctx.globalCompositeOperation = "source-over";
+    bars.forEach((b, i) => {
+      const g = ctx.createLinearGradient(0, b.y, 0, b.y + b.h);
+      g.addColorStop(0, "#b9ffef");
+      g.addColorStop(1, "#7c9cff");
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = g;
+      rr(b.x, b.y, b.w, b.h, b.w / 2);
+      ctx.fill();
+
+      // puls de lumină care urcă, după ce s-a asamblat
+      if (t > T_DONE) {
+        ctx.save();
+        rr(b.x, b.y, b.w, b.h, b.w / 2);
+        ctx.clip();
+        const ph = (t * 0.5 + i * 0.33) % 2;
+        if (ph < 1) {
+          const py = b.y + b.h - ph * b.h;
+          const pg = ctx.createLinearGradient(0, py - 8, 0, py + 2);
+          pg.addColorStop(0, "rgba(255,255,255,0)");
+          pg.addColorStop(1, "rgba(255,255,255,.85)");
+          ctx.globalCompositeOperation = "lighter";
+          ctx.globalAlpha = 0.5 * alpha;
+          ctx.fillStyle = pg;
+          ctx.fillRect(b.x, py - 8, b.w, 10);
+          ctx.globalCompositeOperation = "source-over";
+        }
+        ctx.restore();
+      }
+    });
+    ctx.globalAlpha = 1;
+  }
+
+  function frame(now) {
+    const t = (now - start) / 1000;
+    ctx.clearRect(0, 0, W, H);
+
+    // morph factor: 0 = doar puncte, 1 = doar bare solide
+    const morph = ease((t - T_ASSEMBLED) / T_MORPH);
+    const gatherStart = T_DRIFT;
+
+    // 1) barele solide apar în timpul morph-ului
+    if (morph > 0) drawBars(morph, t);
+
+    // 2) punctele (se sting pe măsură ce barele apar)
+    if (morph < 1) {
+      ctx.globalCompositeOperation = "lighter";
+      for (const p of parts) {
+        if (t < gatherStart) {
+          p.x += p.vx * 0.016;
+          p.y += p.vy * 0.016;
+          p.x += Math.sin(t * 0.8 + p.seed) * 0.15;
+          p.y += Math.cos(t * 0.7 + p.seed) * 0.15;
+          if (p.x < -10) p.x = W + 10;
+          if (p.x > W + 10) p.x = -10;
+          if (p.y < -10) p.y = H + 10;
+          if (p.y > H + 10) p.y = -10;
+          p.gx = p.x;
+          p.gy = p.y;
+        } else {
+          const e = ease(
+            (t - gatherStart - p.delay) / (T_GATHER - p.delay * 0.5),
+          );
+          p.x = p.gx + (p.tx - p.gx) * e;
+          p.y = p.gy + (p.ty - p.gy) * e;
+        }
+        const settling = t > gatherStart && t < T_ASSEMBLED;
+        const a =
+          (t < gatherStart ? 0.55 : settling ? 0.9 : 0.75) * (1 - morph);
+        ctx.fillStyle = `rgba(${col(p.hf)},${a})`;
+        ctx.shadowColor = `rgba(${col(p.hf)},.9)`;
+        ctx.shadowBlur = settling ? 10 : 4;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * (settling ? 1.5 : 1), 0, 6.28);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    }
+
+    // 3) linii mesh doar în timpul plutirii
+    if (t < gatherStart) {
+      ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < parts.length; i += 2) {
+        for (let j = i + 2; j < parts.length; j += 6) {
+          const a = parts[i],
+            b = parts[j];
+          const dx = a.x - b.x,
+            dy = a.y - b.y,
+            d = dx * dx + dy * dy;
+          if (d < 9000) {
+            ctx.strokeStyle = `rgba(124,156,255,${0.1 * (1 - d / 9000)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // 4) bloom la momentul asamblării
+    const fl = Math.max(0, 1 - Math.abs(t - T_ASSEMBLED) / 0.4);
+    if (fl > 0) {
+      const r = anchor.getBoundingClientRect(),
+        hr = host.getBoundingClientRect();
+      const cx = r.left - hr.left + r.width / 2,
+        cy = r.top - hr.top + r.height / 2;
+      const fg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 90);
+      fg.addColorStop(0, `rgba(185,255,239,${0.5 * fl})`);
+      fg.addColorStop(1, "rgba(185,255,239,0)");
+      ctx.globalCompositeOperation = "lighter";
+      ctx.fillStyle = fg;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    ctx.globalCompositeOperation = "source-over";
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("resize", () => {
+    build();
+    if (reduce) drawBars(1, 999);
+  });
+  build();
+  if (reduce) drawBars(1, 999);
+  else requestAnimationFrame(frame);
 })();
