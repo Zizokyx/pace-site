@@ -4385,7 +4385,11 @@ body{
   width: 100%;
   margin-inline: auto;     /* centrează tot conținutul */
 }
-
+.fc-chat .fc-av{
+  background: none;
+  border-radius: 0;
+  overflow: visible;
+}
 /* neutralizează full-bleed-ul cu 100vw care cauza overflow-ul */
 @media (max-width: 768px){
   .demo-carousel-section{

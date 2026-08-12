@@ -248,7 +248,7 @@ const translations = {
       "AI-powered business assistant designed to provide instant answers, insights and knowledge access.",
     footer_contact: "Contact",
     fc_kicker: "Free call",
-    fc_title: "What a free call actually is",
+    fc_title: "What a free call actually is?",
     fc_1_t: "20 focused minutes",
     fc_1_p:
       "A structured conversation about your context: where the reporting or process problem sits, and what's worth analysing.",
