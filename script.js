@@ -9,7 +9,7 @@ const translations = {
     nav_cta: "Discuție gratuită",
     hero_badge: "TURNING DATA INTO MOMENTUM",
     hero_title:
-      "Accelerează prin date, automatizare și inteligență artificială.",
+      "Accelerează prin date",
     hero_sub:
       "Ajut companiile ambițioase să transforme datele în claritate, automatizarea în scalare și AI-ul într-un avantaj competitiv.",
     hero_primary: "Vreau primul audit",
@@ -203,7 +203,7 @@ const translations = {
     nav_contact: "Contact",
     nav_cta: "Free call",
     hero_badge: "TURNING DATA INTO MOMENTUM",
-    hero_title: "Move faster with data, automation and AI",
+    hero_title: "Move faster with data",
     hero_sub:
       "Helping ambitious companies turn data into clarity, automation into scale, and AI into a competitive advantage.",
     hero_primary: "Request a first audit",
